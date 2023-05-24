@@ -7,26 +7,29 @@ const PopularMenu = () => {
 
     useEffect(() => {
         fetch("menu.json")
-        .then(res => res.json())
-        .then(data => {
-            const popularMenus = data.filter(item => item.category === "popular");
-            setPopularMenu(popularMenus);
-        })
+            .then(res => res.json())
+            .then(data => {
+                const popularMenus = data.filter(item => item.category === "popular");
+                setPopularMenu(popularMenus);
+            })
     }, [])
 
     return (
-        <section>
+        <section className='lg:container mx-auto'>
             <SectionTitle
                 subHeading={"Check it out"}
                 heading={"From Our Menu"}
             ></SectionTitle>
-            <div className='lg:container mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10 my-10 px-1 lg:px-0'>
+            <div className=' grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-10 my-10 px-1 lg:px-0'>
                 {
                     popularMenu.map(item => <MenuItems
-                    key={item._id}
-                    item={item}
+                        key={item._id}
+                        item={item}
                     ></MenuItems>)
                 }
+            </div>
+            <div className='flex my-3 justify-center'>
+                <button className='btn btn-outline border-0 border-b-4 text-xl'>View Full Menu</button>
             </div>
         </section>
     );

@@ -13,7 +13,7 @@ import img6 from "../../../assets/home/06.png"
 const Slider = () => {
     return (
         <div >
-            <Carousel autoPlay={true}>
+            <Carousel>
                 <div>
                     <img src={img1} />
                 </div>
