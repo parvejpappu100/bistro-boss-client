@@ -3,6 +3,8 @@ import Slider from '../Slider/Slider';
 import Category from '../Category/Category';
 import BistroBoss from '../BistroBoss/BistroBoss';
 import PopularMenu from '../PopularMenu/PopularMenu';
+import CallUs from '../CallUs/CallUs';
+import Featured from '../Featured/Featured';
 
 const Home = () => {
     return (
@@ -11,6 +13,8 @@ const Home = () => {
            <Category></Category>
            <BistroBoss></BistroBoss>
            <PopularMenu></PopularMenu>
+           <CallUs></CallUs>
+           <Featured></Featured>
         </div>
     );
 };
