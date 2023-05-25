@@ -3,7 +3,7 @@ import React from 'react';
 const Menu = () => {
     return (
         <div>
-            <h1>This is menu page</h1>
+            <h1>This is main menu page</h1>
         </div>
     );
 };

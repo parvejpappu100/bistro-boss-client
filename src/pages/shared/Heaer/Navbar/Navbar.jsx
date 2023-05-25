@@ -1,17 +1,43 @@
 import React from 'react';
+import { FaShoppingCart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import shoppingCartIcon from "../../../../assets/icon/151-1511569_cart-notifications-free-shopping-cart-favicon-hd-png-removebg-preview.png"
+import "./Navbar.css"
+import ActiveLink from '../../../../components/ActiveLink/ActiveLink';
 
 const Navbar = () => {
 
     const navOptions = <>
-        <li><a>Home</a></li>
-        <li><a>Contact</a></li>
-        <li><a>Dashboard</a></li>
-        <li><a>Our Menu</a></li>
-        <li><a>Our Shop</a></li>
+        <li>
+            <ActiveLink to="/">Home</ActiveLink>
+        </li>
+        <li>
+            <a>Contact</a>
+        </li>
+        <li>
+            <a>Dashboard</a>
+        </li>
+        <li>
+            <ActiveLink to="/menu">Our Menu</ActiveLink>
+        </li>
+        <li>
+            <a>Our Shop</a>
+        </li>
+        <li>
+            <Link>
+                {/* <FaShoppingCart className='text-xl bg-green-700 rounded-full h-8 w-8 p-1'>
+                </FaShoppingCart> */}
+                <img className='h-10 w-10' src={shoppingCartIcon} alt="" />
+            </Link>
+        </li>
+        <li>
+            <a>Login</a>
+        </li>
+
     </>
 
     return (
-        <div className="navbar  bg-black bg-opacity-30 font-semibold fixed z-10 ">
+        <div className="navbar  bg-black bg-opacity-50 font-semibold fixed z-10 ">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -21,15 +47,15 @@ const Navbar = () => {
                         {navOptions}
                     </ul>
                 </div>
-                <a className="btn btn-ghost normal-case text-xl text-white">BISTRO BOSS</a>
+                <a className="  text-2xl text-white restaurant-name lg:ps-5">
+                    <p>BISTRO BOSS</p>
+                    <p className='text-base tracking-wider'>R e s t a u r a n t</p>
+                </a>
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <div className="navbar-end hidden lg:flex pr-5">
                 <ul className="menu menu-horizontal px-1 uppercase text-white">
                     {navOptions}
                 </ul>
-            </div>
-            <div className="navbar-end">
-                <a className="btn">Get started</a>
             </div>
         </div>
     );
