@@ -21,7 +21,7 @@ const Navbar = () => {
             <ActiveLink to="/menu">Our Menu</ActiveLink>
         </li>
         <li>
-            <ActiveLink to="/ourShop">Our Shop</ActiveLink>
+            <ActiveLink to="/ourShop/salads">Our Shop</ActiveLink>
         </li>
         <li>
             <Link>

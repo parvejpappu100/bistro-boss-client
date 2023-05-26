@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Banner from '../shared/Heaer/Banner/Banner';
 import shopImg from "../../assets/shop/banner2.jpg"
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import useMenu from '../../hooks/useMenu';
-import MenuCard from '../../components/MenuCard/MenuCard';
+import MenuTab from '../../components/MenuCard/MenuTab';
+import { useParams } from 'react-router-dom';
 
 
 const Shop = () => {
 
+    const categories = ["salads", "pizzas", "soups", "desserts", "drinks" , "offered"];
+    const { category } = useParams();
+    const initialIndex = categories.indexOf(category);
+
+    const [tabIndex, setTabIndex] = useState(initialIndex);
+
     const [menu] = useMenu();
+
     const desserts = menu.filter(item => item.category === "dessert");
     const pizzas = menu.filter(item => item.category === "pizza");
     const salads = menu.filter(item => item.category === "salad");
     const soups = menu.filter(item => item.category === "soup");
     const drinks = menu.filter(item => item.category === "drinks");
+    const offered = menu.filter(item => item.category === "offered");
 
     return (
         <div>
@@ -28,7 +37,7 @@ const Shop = () => {
                 details={"Would you like to try a dish?"}
             ></Banner>
             <div className='lg:container mx-auto  my-20'>
-                <Tabs>
+                <Tabs defaultIndex={tabIndex} onSelect={(index => setTabIndex(index))}>
                     <div className='text-center font-semibold'>
                         <TabList>
                             <Tab>SALADS</Tab>
@@ -36,43 +45,27 @@ const Shop = () => {
                             <Tab>SOUPS</Tab>
                             <Tab>DESSERTS</Tab>
                             <Tab>DRINKS</Tab>
+                            <Tab>OFFERED</Tab>
                         </TabList>
                     </div>
 
                     <TabPanel>
-                        <div className="grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
-                            {
-                                salads.map(salad => <MenuCard key={salad._id} item={salad}></MenuCard>)
-                            }
-                        </div>
+                        <MenuTab tabItems={salads}></MenuTab>
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
-                            {
-                                pizzas.map(pizza => <MenuCard key={pizza._id} item={pizza}></MenuCard>)
-                            }
-                        </div>
+                        <MenuTab tabItems={pizzas}></MenuTab>
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
-                            {
-                                soups.map(soup => <MenuCard key={soup._id} item={soup}></MenuCard>)
-                            }
-                        </div>
+                        <MenuTab tabItems={soups}></MenuTab>
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
-                            {
-                                desserts.map(dessert => <MenuCard key={dessert._id} item={dessert}></MenuCard>)
-                            }
-                        </div>
+                        <MenuTab tabItems={desserts}></MenuTab>
                     </TabPanel>
                     <TabPanel>
-                        <div className="grid grid-cols-1 px-2 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
-                            {
-                                drinks.map(drink => <MenuCard key={drink._id} item={drink}></MenuCard>)
-                            }
-                        </div>
+                        <MenuTab tabItems={drinks}></MenuTab>
+                    </TabPanel>
+                    <TabPanel>
+                        <MenuTab tabItems={offered}></MenuTab>
                     </TabPanel>
                 </Tabs>
             </div>
