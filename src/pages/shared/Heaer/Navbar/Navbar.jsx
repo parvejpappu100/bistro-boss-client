@@ -21,7 +21,7 @@ const Navbar = () => {
             <ActiveLink to="/menu">Our Menu</ActiveLink>
         </li>
         <li>
-            <a>Our Shop</a>
+            <ActiveLink to="/ourShop">Our Shop</ActiveLink>
         </li>
         <li>
             <Link>
@@ -47,9 +47,9 @@ const Navbar = () => {
                         {navOptions}
                     </ul>
                 </div>
-                <a className="  text-2xl text-white restaurant-name lg:ps-5">
+                <a className="md:text-2xl text-white title lg:ps-5">
                     <p>BISTRO BOSS</p>
-                    <p className='text-base tracking-wider'>R e s t a u r a n t</p>
+                    <p className='text-base md:tracking-wider'>R e s t a u r a n t</p>
                 </a>
             </div>
             <div className="navbar-end hidden lg:flex pr-5">
