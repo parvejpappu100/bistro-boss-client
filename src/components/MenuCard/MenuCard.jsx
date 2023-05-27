@@ -3,7 +3,7 @@ import React from 'react';
 const MenuCard = ({ item }) => {
     const { name, image, price, recipe } = item;
     return (
-        <div className="card bg-base-100  bg-[#F3F3F3;] rounded-none">
+        <div className="card   bg-[#F3F3F3] rounded-none">
             <figure className="relative">
                 <img src={image} alt={name} className='w-full' />
                 <p className='bg-black text-white font-medium text-xl px-3 py-1 absolute top-3 right-3'>${price}</p>

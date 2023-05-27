@@ -31,7 +31,7 @@ const Navbar = () => {
             </Link>
         </li>
         <li>
-            <a>Login</a>
+            <ActiveLink to="/login">Login</ActiveLink>
         </li>
 
     </>
