@@ -1,52 +1,34 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React from 'react';
 import loginImg from "../../assets/others/authentication2.png"
 import loginBg from "../../assets/others/authentication.png"
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { loadCaptchaEnginge, LoadCanvasTemplate, LoadCanvasTemplateNoReload, validateCaptcha } from 'react-simple-captcha';
 import { AuthContext } from '../../providers/AuthProviders';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 
-const Login = () => {
+const SingUp = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = location.state?.from?.pathname || "/";
 
-    const [disable, setDisable] = useState(true);
-    const { googleSingIn, setUser, singIn } = useContext(AuthContext);
+    const { googleSingIn, setUser, createUser } = useContext(AuthContext);
 
-    const captchaRef = useRef(null);
-    const handleValidateCaptcha = () => {
-        const user_captcha_value = captchaRef.current.value;
-        if (validateCaptcha(user_captcha_value, false)) {
-            setDisable(false)
-        }
-        else {
-            setDisable(true);
-        }
-    }
-
-    useEffect(() => {
-        loadCaptchaEnginge(6);
-    }, [])
-
-    const handleLogin = event => {
-        event.preventDefault();
-        const form = event.target;
-        const email = form.email.value;
-        const password = form.password.value;
-        console.log(email, password);
-        singIn(email, password)
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const onSubmit = data => {
+        createUser(data.email, data.password)
             .then(result => {
                 const user = result.user;
-                setUser(user);
+                setUser(user)
+                console.log(user);
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
-                    title: 'Login successfully',
+                    title: 'User create successfully',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -55,7 +37,7 @@ const Login = () => {
             .catch(error => {
                 console.log(error.message)
             })
-        form.reset();
+
     }
 
     const handleGoogleLogin = () => {
@@ -80,37 +62,40 @@ const Login = () => {
     return (
         <div className='py-32' style={{ backgroundImage: `url("${loginBg}")` }}>
             <Helmet>
-                <title>Login | Bistro Boss Restaurant</title>
+                <title>Sing Up | Bistro Boss Restaurant</title>
             </Helmet>
-            <div className='lg:container mx-auto py-24 shadow-2xl flex flex-col md:flex-row items-center justify-center gap-5'>
+            <div className='lg:container mx-auto py-24 shadow-2xl flex flex-col md:flex-row-reverse items-center justify-center gap-5'>
                 <div>
                     <img src={loginImg} alt="" />
                 </div>
                 <div className='w-full md:w-2/4 lg:w-2/5 py-10 md:mr-2'>
-                    <h3 className='text-center text-3xl font-semibold'>Login</h3>
-                    <form onSubmit={handleLogin} className='w-4/5 lg:w-2/3 mx-auto'>
+                    <h3 className='text-center text-3xl font-semibold'>Sing Up</h3>
+                    <form onSubmit={handleSubmit(onSubmit)} className='w-4/5 lg:w-2/3 mx-auto'>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text text-xl font-medium">Name</span>
+                            </label>
+                            <input type="text" {...register("name", { required: true })} placeholder="Your name" name='name' className="input input-bordered " />
+                            {errors.name && <span className='text-red-600'>Name is required</span>}
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-xl font-medium">Email</span>
                             </label>
-                            <input type="text" placeholder="Your email" name='email' required className="input input-bordered " />
+                            <input type="text" {...register("email", { required: true })} placeholder="Your email" name='email' className="input input-bordered " />
+                            {errors.email && <span className='text-red-600'>Email is required</span>}
                         </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-xl font-medium">Password</span>
                             </label>
-                            <input type="password" placeholder="Your Password" name='password' required className="input input-bordered " />
-                            <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                            </label>
+                            <input type="password" {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/ })} placeholder="Your Password" name='password' className="input input-bordered " />
+                            {errors.password?.type == "required" && <span className='text-red-600'>Password is required.</span>}
+                            {errors.password?.type == "minLength" && <span className='text-red-600'>Password should be at least 6 characters.</span>}
+                            {errors.password?.type == "maxLength" && <span className='text-red-600'>Password should be maximum 20 characters</span>}
+                            {errors.password?.type == "pattern" && <span className='text-red-600'>Password should be at least one uppercase, one lowercase , one digit and one special character</span>}
                         </div>
-                        <div className="form-control ">
-                            <label className="label">
-                                <LoadCanvasTemplate />
-                            </label>
-                            <input onChange={handleValidateCaptcha} ref={captchaRef} type="text" name='captcha' placeholder="Type Here" className="input input-bordered " />
-                        </div>
-                        <input disabled={disable} type="submit" value="Login" className='w-full btn border-0 normal-case bg-[#D1A054] hover:bg-[#D1A054] hover:bg-opacity-75 py-3 my-5 rounded-md font-semibold' />
+                        <input type="submit" value="Login" className='w-full btn border-0 normal-case bg-[#D1A054] hover:bg-[#D1A054] hover:bg-opacity-75 py-3 my-5 rounded-md font-semibold' />
                     </form>
                     <div className='w-2/3 mx-auto'>
                         <h6 className='text-center my-3 font-semibold'>Or sing with</h6>
@@ -119,7 +104,7 @@ const Login = () => {
                             <button className='rounded-full bg-[#F5F5F8] p-4 text-[#3B5998]'><FaGithub></FaGithub></button>
                             <button className='rounded-full bg-[#F5F5F8] p-4 text-[#3B5998]'><FaFacebookF></FaFacebookF></button>
                         </div>
-                        <p className='text-center text-[#D1A054;]'>New here ? <Link to="/singUp" className='hover:underline font-semibold'>Create a New Account</Link></p>
+                        <p className='text-center text-[#D1A054;]'>Already registered ? <Link to="/login" className='hover:underline font-semibold'>Go to login</Link></p>
                     </div>
                 </div>
             </div>
@@ -127,4 +112,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default SingUp;

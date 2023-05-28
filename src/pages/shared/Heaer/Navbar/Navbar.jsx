@@ -4,8 +4,20 @@ import { Link } from 'react-router-dom';
 import shoppingCartIcon from "../../../../assets/icon/151-1511569_cart-notifications-free-shopping-cart-favicon-hd-png-removebg-preview.png"
 import "./Navbar.css"
 import ActiveLink from '../../../../components/ActiveLink/ActiveLink';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../providers/AuthProviders';
 
 const Navbar = () => {
+
+    const { user , logOut} = useContext(AuthContext);
+
+    const handleLogOut = () => {
+        logOut(result => {
+            
+        })
+        .then()
+        .catch(error => console.log(error.message))
+    }
 
     const navOptions = <>
         <li>
@@ -31,7 +43,9 @@ const Navbar = () => {
             </Link>
         </li>
         <li>
-            <ActiveLink to="/login">Login</ActiveLink>
+            {
+                user ? <><Link onClick={handleLogOut}>Log Out</Link></> : <><ActiveLink to="/login">Login</ActiveLink></>
+            }
         </li>
 
     </>
