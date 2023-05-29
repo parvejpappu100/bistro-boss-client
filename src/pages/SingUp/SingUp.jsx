@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import loginImg from "../../assets/others/authentication2.png"
 import loginBg from "../../assets/others/authentication.png"
 import { FaFacebookF, FaGithub, FaGoogle } from 'react-icons/fa';
@@ -8,11 +8,14 @@ import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import { updateProfile } from 'firebase/auth';
 
 const SingUp = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [singUpError , setSingUpError] = useState("");
 
     const from = location.state?.from?.pathname || "/";
 
@@ -24,6 +27,7 @@ const SingUp = () => {
             .then(result => {
                 const user = result.user;
                 setUser(user)
+                updateUserData(user , data.name , data.photoURL);
                 console.log(user);
                 Swal.fire({
                     position: 'top-end',
@@ -35,9 +39,22 @@ const SingUp = () => {
                 navigate(from , {replace: true});
             })
             .catch(error => {
-                console.log(error.message)
+                setSingUpError(error.message)
             })
 
+    };
+
+    const updateUserData = (user , name , photo) => {
+        updateProfile(user , {
+            displayName: name , 
+            photoURL: photo
+        })
+        .then( () => {
+
+        })
+        .catch(error => {
+
+        })
     }
 
     const handleGoogleLogin = () => {
@@ -80,6 +97,13 @@ const SingUp = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
+                                <span className="label-text text-xl font-medium">Photo URL</span>
+                            </label>
+                            <input type="text" {...register("photoURL", { required: true })} placeholder="Your photo url"  className="input input-bordered " />
+                            {errors.photoURL && <span className='text-red-600'>Photo URL is required</span>}
+                        </div>
+                        <div className="form-control">
+                            <label className="label">
                                 <span className="label-text text-xl font-medium">Email</span>
                             </label>
                             <input type="text" {...register("email", { required: true })} placeholder="Your email" name='email' className="input input-bordered " />
@@ -97,6 +121,7 @@ const SingUp = () => {
                         </div>
                         <input type="submit" value="Login" className='w-full btn border-0 normal-case bg-[#D1A054] hover:bg-[#D1A054] hover:bg-opacity-75 py-3 my-5 rounded-md font-semibold' />
                     </form>
+                    <p className="text-red-400 text-center font-semibold">{singUpError}</p>
                     <div className='w-2/3 mx-auto'>
                         <h6 className='text-center my-3 font-semibold'>Or sing with</h6>
                         <div className='flex gap-10 items-center justify-center my-5'>

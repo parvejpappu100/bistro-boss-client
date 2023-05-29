@@ -5,7 +5,6 @@ import Menu from "../pages/Menu/Menu/Menu";
 import Shop from "../pages/Shop/Shop";
 import Login from "../pages/Login/Login";
 import SingUp from "../pages/SingUp/SingUp";
-import PrivateRoutes from "./PrivateRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -22,7 +21,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/ourShop/:category",
-                element: <PrivateRoutes><Shop></Shop></PrivateRoutes>
+                element: <Shop></Shop>
             },
             {
                 path: "/login",

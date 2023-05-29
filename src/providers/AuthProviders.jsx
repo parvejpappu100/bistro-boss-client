@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import app from '../firebase/firebase.config';
 
 
@@ -12,19 +12,19 @@ const AuthProviders = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const createUser = (email , password) => {
+    const createUser = (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth , email , password);
+        return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const googleSingIn = () =>{
+    const googleSingIn = () => {
         setLoading(true);
-        return signInWithPopup(auth , googleProvider);
-    } 
+        return signInWithPopup(auth, googleProvider);
+    }
 
-    const singIn = (email , password) => {
+    const singIn = (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth , email , password);
+        return signInWithEmailAndPassword(auth, email, password);
     }
 
     const logOut = () => {
@@ -32,8 +32,13 @@ const AuthProviders = ({ children }) => {
         return signOut(auth);
     }
 
+    const restPassword = email => {
+        setLoading(true)
+        return sendPasswordResetEmail(auth, email);
+    }
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth , currentUser => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false);
         });
@@ -51,6 +56,7 @@ const AuthProviders = ({ children }) => {
         createUser,
         setLoading,
         googleSingIn,
+        restPassword,
     }
 
     return (

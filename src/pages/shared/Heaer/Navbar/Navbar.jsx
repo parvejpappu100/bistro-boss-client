@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import shoppingCartIcon from "../../../../assets/icon/151-1511569_cart-notifications-free-shopping-cart-favicon-hd-png-removebg-preview.png"
 import "./Navbar.css"
@@ -9,14 +9,14 @@ import { AuthContext } from '../../../../providers/AuthProviders';
 
 const Navbar = () => {
 
-    const { user , logOut} = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
 
     const handleLogOut = () => {
-        logOut(result => {
-            
+        logOut(() => {
+
         })
-        .then()
-        .catch(error => console.log(error.message))
+            .then()
+            .catch(error => console.log(error.message))
     }
 
     const navOptions = <>
@@ -44,7 +44,14 @@ const Navbar = () => {
         </li>
         <li>
             {
-                user ? <><Link onClick={handleLogOut}>Log Out</Link></> : <><ActiveLink to="/login">Login</ActiveLink></>
+                user ? <div className='flex gap-2 items-center'>
+                    <Link onClick={handleLogOut}>Log Out</Link>
+                    <div className="tooltip  tooltip-left  tooltip-success" data-tip={user.displayName}>
+                        {
+                            user.photoURL ? <img className="rounded-full h-10 w-10" src={user.photoURL}></img> : <FaUserCircle className="h-10 w-10"></FaUserCircle>
+                        }
+                    </div>
+                </div> : <><ActiveLink to="/login">Login</ActiveLink></>
             }
         </li>
 

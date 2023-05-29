@@ -16,7 +16,9 @@ const Login = () => {
     const from = location.state?.from?.pathname || "/";
 
     const [disable, setDisable] = useState(true);
-    const { googleSingIn, setUser, singIn } = useContext(AuthContext);
+    const [logInError , setLogInError] = useState("");
+    const emailRef = useRef();
+    const { googleSingIn, setUser, singIn , restPassword } = useContext(AuthContext);
 
     const captchaRef = useRef(null);
     const handleValidateCaptcha = () => {
@@ -38,11 +40,11 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password);
         singIn(email, password)
             .then(result => {
                 const user = result.user;
                 setUser(user);
+                setLogInError("");
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -53,9 +55,9 @@ const Login = () => {
                 navigate(from , {replace: true});
             })
             .catch(error => {
-                console.log(error.message)
+                setLogInError(error.message);
             })
-        form.reset();
+        
     }
 
     const handleGoogleLogin = () => {
@@ -75,6 +77,21 @@ const Login = () => {
             .catch(error => {
                 console.log(error.message)
             })
+    };
+
+    const handleRestPassword = () => {
+        const email = emailRef.current.value;
+        if(! email){
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please provide a valid email!',
+              })
+        };
+        restPassword(email)
+        .then( () => {
+            Swal.fire('Check your email please !!')
+        })
     }
 
     return (
@@ -93,7 +110,7 @@ const Login = () => {
                             <label className="label">
                                 <span className="label-text text-xl font-medium">Email</span>
                             </label>
-                            <input type="text" placeholder="Your email" name='email' required className="input input-bordered " />
+                            <input ref={emailRef} type="text" placeholder="Your email" name='email' required className="input input-bordered " />
                         </div>
                         <div className="form-control">
                             <label className="label">
@@ -101,7 +118,7 @@ const Login = () => {
                             </label>
                             <input type="password" placeholder="Your Password" name='password' required className="input input-bordered " />
                             <label className="label">
-                                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                <a onClick={handleRestPassword} className="label-text-alt link link-hover">Forgot password?</a>
                             </label>
                         </div>
                         <div className="form-control ">
@@ -112,6 +129,7 @@ const Login = () => {
                         </div>
                         <input disabled={disable} type="submit" value="Login" className='w-full btn border-0 normal-case bg-[#D1A054] hover:bg-[#D1A054] hover:bg-opacity-75 py-3 my-5 rounded-md font-semibold' />
                     </form>
+                    <p className="text-red-400 text-center font-semibold">{logInError}</p>
                     <div className='w-2/3 mx-auto'>
                         <h6 className='text-center my-3 font-semibold'>Or sing with</h6>
                         <div className='flex gap-10 items-center justify-center my-5'>
