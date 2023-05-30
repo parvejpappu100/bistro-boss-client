@@ -5,6 +5,7 @@ import Menu from "../pages/Menu/Menu/Menu";
 import Shop from "../pages/Shop/Shop";
 import Login from "../pages/Login/Login";
 import SingUp from "../pages/SingUp/SingUp";
+import Contact from "../pages/Contact/Contact";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
             {
                 path: "/singUp",
                 element: <SingUp></SingUp>
+            },
+            {
+                path: "/contact",
+                element: <Contact></Contact>
             }
         ]
     },

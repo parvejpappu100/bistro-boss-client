@@ -6,10 +6,12 @@ import "./Navbar.css"
 import ActiveLink from '../../../../components/ActiveLink/ActiveLink';
 import { useContext } from 'react';
 import { AuthContext } from '../../../../providers/AuthProviders';
+import useCart from '../../../../hooks/useCart';
 
 const Navbar = () => {
 
     const { user, logOut } = useContext(AuthContext);
+    const [cart] = useCart();
 
     const handleLogOut = () => {
         logOut(() => {
@@ -24,7 +26,7 @@ const Navbar = () => {
             <ActiveLink to="/">Home</ActiveLink>
         </li>
         <li>
-            <a>Contact</a>
+            <ActiveLink to="/contact">Contact</ActiveLink>
         </li>
         <li>
             <a>Dashboard</a>
@@ -37,16 +39,19 @@ const Navbar = () => {
         </li>
         <li>
             <Link>
-                {/* <FaShoppingCart className='text-xl bg-green-700 rounded-full h-8 w-8 p-1'>
-                </FaShoppingCart> */}
-                <img className='h-10 w-10' src={shoppingCartIcon} alt="" />
+                <div className='indicator'>
+                    <span className="indicator-item badge indicator-bottom bg-red-600 text-black">+{cart?.length || 0}</span>
+                    <FaShoppingCart className='text-xl text-white  bg-green-700 rounded-full h-8 w-8 p-1'>
+                    </FaShoppingCart>
+                </div>
+                {/* <img className='h-10 w-10' src={shoppingCartIcon} alt="" /> */}
             </Link>
         </li>
         <li>
             {
                 user ? <div className='flex gap-2 items-center'>
                     <Link onClick={handleLogOut}>Log Out</Link>
-                    <div className="tooltip  tooltip-left  tooltip-success" data-tip={user.displayName}>
+                    <div className="tooltip  tooltip-bottom lg:tooltip-left  tooltip-success" data-tip={user.displayName}>
                         {
                             user.photoURL ? <img className="rounded-full h-10 w-10" src={user.photoURL}></img> : <FaUserCircle className="h-10 w-10"></FaUserCircle>
                         }
