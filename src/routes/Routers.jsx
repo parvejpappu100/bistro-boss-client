@@ -6,6 +6,8 @@ import Shop from "../pages/Shop/Shop";
 import Login from "../pages/Login/Login";
 import SingUp from "../pages/SingUp/SingUp";
 import Contact from "../pages/Contact/Contact";
+import DashBoard from "../layouts/DashBoard";
+import MyCart from "../pages/DashBoard/MyCart/MyCart";
 
 export const router = createBrowserRouter([
     {
@@ -38,4 +40,14 @@ export const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path: "/dashBoard",
+        element: <DashBoard></DashBoard>,
+        children: [
+            {
+               path: "myCart",
+               element: <MyCart></MyCart> 
+            }
+        ]
+    }
 ]);

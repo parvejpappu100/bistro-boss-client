@@ -29,7 +29,7 @@ const Navbar = () => {
             <ActiveLink to="/contact">Contact</ActiveLink>
         </li>
         <li>
-            <a>Dashboard</a>
+            <ActiveLink to="/dashBoard">Dashboard</ActiveLink>
         </li>
         <li>
             <ActiveLink to="/menu">Our Menu</ActiveLink>
@@ -38,14 +38,14 @@ const Navbar = () => {
             <ActiveLink to="/ourShop/salads">Our Shop</ActiveLink>
         </li>
         <li>
-            <Link>
+            <ActiveLink to="/dashBoard/MyCart">
                 <div className='indicator'>
                     <span className="indicator-item badge indicator-bottom bg-red-600 text-black">+{cart?.length || 0}</span>
                     <FaShoppingCart className='text-xl text-white  bg-green-700 rounded-full h-8 w-8 p-1'>
                     </FaShoppingCart>
                 </div>
                 {/* <img className='h-10 w-10' src={shoppingCartIcon} alt="" /> */}
-            </Link>
+            </ActiveLink>
         </li>
         <li>
             {
