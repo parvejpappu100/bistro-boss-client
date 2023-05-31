@@ -11,7 +11,7 @@ const DashBoard = () => {
     return (
         <div className="drawer drawer-mobile ">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col items-center bg-gray-100 relative">
+            <div className="drawer-content  bg-gray-100 relative">
                 <Outlet></Outlet>
                 <label htmlFor="my-drawer-2" className=" top-2 left-2 text-3xl fixed drawer-button lg:hidden"><FaBars></FaBars></label>
             </div>
@@ -23,7 +23,7 @@ const DashBoard = () => {
                         <p className='  text-xl md:tracking-wider '>R e s t a u r a n t</p>
                     </div>
                     <li>
-                        <Link><FaHome></FaHome> User Home</Link>
+                        <DashBoardActiveLink to="/dashBoard/userHome"><FaHome></FaHome> User Home</DashBoardActiveLink>
                     </li>
                     <li>
                         <Link><FaCalendarAlt></FaCalendarAlt> Reservation</Link>
